@@ -1,5 +1,5 @@
 <template lang="pug">
-v-card.pa-4
+.pa-4
   v-form(ref="form" lazy-validation)
     v-row.my-n1
       v-col.py-1(cols="6")
@@ -7,7 +7,7 @@ v-card.pa-4
           v-model="form.currency_from"
           :filter="currenciesFilter"
           :items="currencies"
-          label="Выберите валюту"
+          label="Select currency"
           item-text="code"
           item-value="code"
           hide-details="auto"
@@ -22,7 +22,7 @@ v-card.pa-4
           v-model="form.currency_to"
           :filter="currenciesFilter"
           :items="currencies"
-          label="Выберите валюту"
+          label="Select currency"
           item-text="code"
           item-value="code"
           hide-details="auto"
@@ -37,7 +37,7 @@ v-card.pa-4
           v-model="form.amount_from"
           :rules="[rules.minZero]"
           hide-details="auto"
-          label="Укажите сумму"
+          label="Select amount"
           type="number"
           hide-spin-buttons
           outlined
@@ -47,7 +47,7 @@ v-card.pa-4
         v-text-field(
           v-model="form.amount_to"
           hide-details="auto"
-          label="Укажите сумму"
+          label="Select amount"
           type="number"
           hide-spin-buttons
           outlined
@@ -73,7 +73,7 @@ export default {
       rate: null,
       loading: false,
       rules: {
-        minZero: (v) => (v && v >= 0) || 'Минимальное значение 0',
+        minZero: (v) => (v && v >= 0) || 'Minimum value 0',
       },
     }
   },

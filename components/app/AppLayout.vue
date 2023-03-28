@@ -7,13 +7,13 @@ v-app
 
 <script>
 export default {
-  name: 'AppLayout'
+  name: 'AppLayout',
 }
 </script>
 
 <style lang="scss" scoped>
 .v-application {
-  background: $background;
+  background: $primary-background;
   color: $primary-font;
 }
 </style>

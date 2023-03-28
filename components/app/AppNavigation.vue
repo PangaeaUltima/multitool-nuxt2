@@ -1,14 +1,14 @@
 <template lang="pug">
 div
   v-app-bar-nav-icon.ml-auto(color="white" @click.stop="$store.commit('SET_DRAWER', true)")
-  v-navigation-drawer(
+  v-navigation-drawer.secondary-background(
     v-model="drawer"
     absolute
     left
     temporary
   )
     .w-100(:class="$vuetify.breakpoint.mobile ? 'px-3 py-2' : 'px-6 py-4'")
-      nuxt-link.header-main-link(:to="{ name: 'index' }") Multitool
+      nuxt-link.header-main-link.primary--text(:to="{ name: 'index' }") Multitool
       v-list.px-0(nav dense)
         v-list-item-group(v-model="group")
           v-list-item.white--text.px-3(
