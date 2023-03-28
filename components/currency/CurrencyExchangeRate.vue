@@ -1,5 +1,5 @@
 <template lang="pug">
-.pa-4
+.pa-4.wrapper
   v-form(ref="form" lazy-validation)
     v-row.my-n1
       v-col.py-1(cols="6")
@@ -35,20 +35,18 @@
       v-col.py-1(cols="6")
         v-text-field(
           v-model="form.amount_from"
+          v-currency
           :rules="[rules.minZero]"
           hide-details="auto"
           label="Select amount"
-          type="number"
           hide-spin-buttons
           outlined
-          clearable
         )
       v-col.py-1(cols="6")
         v-text-field(
-          v-model="form.amount_to"
+          v-model="amountTo"
           hide-details="auto"
           label="Select amount"
-          type="number"
           hide-spin-buttons
           outlined
           readonly
@@ -66,23 +64,34 @@ export default {
       currencies: null,
       form: {
         currency_from: null,
-        amount_from: 0,
+        amount_from: '0',
         currency_to: null,
         amount_to: 0,
       },
       rate: null,
       loading: false,
       rules: {
-        minZero: (v) => (v && v >= 0) || 'Minimum value 0',
+        minZero: (v) => {
+          const input = v ? v.toString().replace(/\s/g, '') : 0
+          return (input && input >= 0) || 'Minimum value 0'
+        },
       },
     }
   },
   computed: {
+    amountTo() {
+      const s = this.form.amount_to.toString()
+      // eslint-disable-next-line no-unused-vars
+      const [_, num, suffix] = s.match(/^(.*?)((?:[,.]\d+)?|)$/)
+      return `${num.replace(/\B(?=(?:\d{3})*$)/g, ' ')}${
+        suffix.length > 2 ? suffix.substr(0, 3) : suffix
+      }`
+    },
     dataToSend() {
       return {
         from: this.form.currency_from,
         to: this.form.currency_to,
-        amount: this.form.amount_from,
+        amount: Number(this.form.amount_from.replace(/\s/g, '')),
       }
     },
     fieldsCompleted() {
@@ -98,6 +107,9 @@ export default {
         }
       },
       deep: true,
+    },
+    'form.amount_from'(val) {
+      if (!val) this.form.amount_to = 0
     },
   },
   created() {
@@ -136,3 +148,10 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.wrapper {
+  max-width: 900px;
+  width: 100%;
+}
+</style>
