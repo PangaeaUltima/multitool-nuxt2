@@ -4,14 +4,14 @@ div
   v-navigation-drawer(
     v-model="drawer"
     absolute
-    bottom
+    left
     temporary
   )
-    .px-6.py-4.w-100
+    .w-100(:class="$vuetify.breakpoint.mobile ? 'px-3 py-2' : 'px-6 py-4'")
       nuxt-link.header-main-link(:to="{ name: 'index' }") Multitool
-      v-list(nav dense)
+      v-list.px-0(nav dense)
         v-list-item-group(v-model="group")
-          v-list-item.white--text(
+          v-list-item.white--text.px-3(
             v-for="(link, index) in navigationLinks"
             :key="index"
             :to="{ name: link.routeName }"

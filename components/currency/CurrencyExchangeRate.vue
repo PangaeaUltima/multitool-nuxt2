@@ -1,5 +1,5 @@
 <template lang="pug">
-v-card.pa-4(width="900")
+v-card.pa-4
   v-form(ref="form" lazy-validation)
     v-row.my-n1
       v-col.py-1(cols="6")
