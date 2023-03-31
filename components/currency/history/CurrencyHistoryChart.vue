@@ -56,7 +56,9 @@ export default {
         return this.selectedCurrencies.map((item) => {
           return {
             name: item,
-            data: Object.keys(this.chartData).map((key) => this.chartData[key][item]),
+            data: Object.keys(this.chartData).map((key) => {
+              return this.chartData[key][item] ? this.chartData[key][item] : 0
+            }),
           }
         })
       }

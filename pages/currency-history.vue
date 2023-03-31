@@ -42,7 +42,7 @@ export default {
     return {
       filter: {
         start_date: this.$dayjs().subtract(7, 'day').format('YYYY-MM-DD'),
-        end_date: this.$dayjs().format('YYYY-MM-DD'),
+        end_date: this.$dayjs().subtract(1, 'day').format('YYYY-MM-DD'),
         base: 'USD',
         currencies: ['UAH'],
       },
