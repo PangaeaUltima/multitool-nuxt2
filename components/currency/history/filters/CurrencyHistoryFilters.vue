@@ -18,6 +18,7 @@
   autocomplete-currency(
     v-model="filter.currencies"
     :currencies="currencies"
+    label="Select currencies"
     multiple
     clearable
   )
