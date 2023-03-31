@@ -3,6 +3,7 @@ div
   v-app-bar-nav-icon.ml-auto(color="white" @click.stop="$store.commit('SET_DRAWER', true)")
   v-navigation-drawer.secondary-background(
     v-model="drawer"
+    :width="$vuetify.breakpoint.mobile ? 250 : 280"
     absolute
     left
     temporary
@@ -33,7 +34,7 @@ export default {
           routeName: 'currency-converter',
         },
         {
-          title: 'Currency History Rates',
+          title: 'Historical Data on Currency Rates',
           routeName: 'currency-history',
         },
       ],

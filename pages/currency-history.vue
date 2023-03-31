@@ -1,6 +1,6 @@
 <template lang="pug">
 .d-flex.flex-column.align-center.justify-center.mx-auto.w-100
-  h1.mb-11 Currency History Data
+  h1.mb-11 Historical Data on Currency Rates
   currency-history-filters.mb-16(v-model="filter" :currencies="currencies")
   currency-history-chart.mb-4(
     :chart-data="history"
