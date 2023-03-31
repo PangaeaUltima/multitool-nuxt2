@@ -3,7 +3,30 @@
 // The variables you want to modify
 // $font-size-root: 20px;
 
+@import '~vuetify/src/styles/settings/_variables.scss';
+
+$body-font-family: "Roboto", sans-serif;
+
 $primary: #A1C980;
 $primary-background: #222222;
 $secondary-background: #1a1919;
 $primary-font: #E3F5F9;
+
+$headings: (
+        'caption-d': (
+                'size': 12px,
+                'weight': 600,
+                'line-height': 1.17,
+                'letter-spacing': 0.02em,
+                'font-family': $body-font-family,
+                'text-transform': false
+        ),
+        'caption': (
+                'size': 8px,
+                'weight': 600,
+                'line-height': 1,
+                'letter-spacing': normal,
+                'font-family': $body-font-family,
+                'text-transform': false
+        ),
+);

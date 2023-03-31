@@ -32,6 +32,10 @@ export default {
           title: 'Currency Converter',
           routeName: 'currency-converter',
         },
+        {
+          title: 'Currency History Rates',
+          routeName: 'currency-history',
+        },
       ],
     }
   },

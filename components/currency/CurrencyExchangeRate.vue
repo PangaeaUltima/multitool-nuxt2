@@ -2,49 +2,25 @@
 .pa-4.wrapper
   v-form(ref="form" lazy-validation)
     v-row.my-n1
-      v-col.py-1(cols="6")
-        v-autocomplete.mb-3(
-          v-model="form.currency_from"
-          :filter="currenciesFilter"
-          :items="currencies"
-          label="Select currency"
-          item-text="code"
-          item-value="code"
-          hide-details="auto"
-          outlined
-        )
-          template(#item="{ item }")
-            span {{ `${item.code} (${item.name})`}}
-          template(#selection="{ item }")
-            span {{ `${item.code} (${item.name})`}}
-      v-col.py-1(cols="6")
-        v-autocomplete.mb-3(
-          v-model="form.currency_to"
-          :filter="currenciesFilter"
-          :items="currencies"
-          label="Select currency"
-          item-text="code"
-          item-value="code"
-          hide-details="auto"
-          outlined
-        )
-          template(#item="{ item }")
-            span {{ `${item.code} (${item.name})`}}
-          template(#selection="{ item }")
-            span {{ `${item.code} (${item.name})`}}
-      v-col.py-1(cols="6")
+      v-col.py-md-3.py-2(cols="6")
+        autocomplete-currency(v-model="form.currency_from" :currencies="currencies")
+      v-col.py-md-3.py-2(cols="6")
+        autocomplete-currency(v-model="form.currency_to" :currencies="currencies")
+      v-col.py-md-3.py-2(cols="6")
         v-text-field(
           v-model="form.amount_from"
           v-currency
           :rules="[rules.minZero]"
+          :dense="$vuetify.breakpoint.mobile"
           hide-details="auto"
           label="Select amount"
           hide-spin-buttons
           outlined
         )
-      v-col.py-1(cols="6")
+      v-col.py-md-3.py-2(cols="6")
         v-text-field(
           v-model="amountTo"
+          :dense="$vuetify.breakpoint.mobile"
           hide-details="auto"
           label="Select amount"
           hide-spin-buttons
@@ -56,12 +32,21 @@
 
 <script>
 import debounce from 'lodash/debounce'
+import AutocompleteCurrency from '~/components/currency/fields/AutocompleteCurrency'
 
 export default {
   name: 'CurrencyExchangeRate',
+  components: {
+    AutocompleteCurrency,
+  },
+  props: {
+    currencies: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
-      currencies: null,
       form: {
         currency_from: null,
         amount_from: '0',
@@ -91,7 +76,7 @@ export default {
       return {
         from: this.form.currency_from,
         to: this.form.currency_to,
-        amount: Number(this.form.amount_from.replace(/\s/g, '')),
+        amount: this.form.amount_from ? Number(this.form.amount_from.replace(/\s/g, '')) : 0,
       }
     },
     fieldsCompleted() {
@@ -112,15 +97,12 @@ export default {
       if (!val) this.form.amount_to = 0
     },
   },
-  created() {
-    this.loadCurrencies()
-  },
   methods: {
     convert: debounce(async function () {
       if (this.$refs.form.validate()) {
         this.loading = true
         try {
-          const { result, info } = await this.$api.convert(this.dataToSend)
+          const { result, info } = await this.$api.currencies.convert(this.dataToSend)
           if (result) this.$set(this.form, 'amount_to', result.toFixed(2))
           if (info.rate) this.rate = info.rate.toFixed(2)
         } catch (e) {
@@ -134,16 +116,6 @@ export default {
       return `${item.code.toLowerCase()} ${item.name.toLowerCase()}`.includes(
         queryText.toLowerCase()
       )
-    },
-    async loadCurrencies() {
-      try {
-        const { symbols } = await this.$api.symbols()
-        this.currencies = Object.keys(symbols).map((key) => {
-          return { name: symbols[key].description, code: symbols[key].code }
-        })
-      } catch (e) {
-        this.$noty.responseError(e)
-      }
     },
   },
 }
