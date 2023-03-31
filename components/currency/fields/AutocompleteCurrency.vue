@@ -10,7 +10,9 @@ v-autocomplete(
   item-value="code"
   hide-details="auto"
   outlined
+  :search-input.sync="search"
   :clearable="clearable"
+  @change="search = null"
 )
   template(#item="{ item }")
     span {{ `${item.code} (${item.name})`}}
@@ -43,6 +45,11 @@ export default {
       type: [Array, String],
       default: null,
     },
+  },
+  data() {
+    return {
+      search: null,
+    }
   },
   computed: {
     inputValue: {
