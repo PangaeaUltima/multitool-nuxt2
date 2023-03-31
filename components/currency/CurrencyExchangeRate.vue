@@ -121,8 +121,8 @@ export default {
         this.loading = true
         try {
           const { result, info } = await this.$api.convert(this.dataToSend)
-          this.$set(this.form, 'amount_to', result.toFixed(2))
-          this.rate = info.rate.toFixed(2)
+          if (result) this.$set(this.form, 'amount_to', result.toFixed(2))
+          if (info.rate) this.rate = info.rate.toFixed(2)
         } catch (e) {
           this.$noty.responseError(e)
         } finally {
