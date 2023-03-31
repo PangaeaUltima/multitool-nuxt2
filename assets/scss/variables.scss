@@ -13,6 +13,38 @@ $secondary-background: #1a1919;
 $primary-font: #E3F5F9;
 
 $headings: (
+        'bold-d': (
+                'size': 14px,
+                'weight': 600,
+                'line-height': 1.3,
+                'letter-spacing': 0.02em,
+                'font-family': $body-font-family,
+                'text-transform': false
+        ),
+        'bold': (
+                'size': 10px,
+                'weight': 600,
+                'line-height': 10px,
+                'letter-spacing': 0.02em,
+                'font-family': $body-font-family,
+                'text-transform': false
+        ),
+        'btn-d': (
+                'size': 14px,
+                'weight': 600,
+                'line-height': 1.2,
+                'letter-spacing': 0.02em,
+                'font-family': $body-font-family,
+                'text-transform': uppercase
+        ),
+        'btn': (
+                'size': 10px,
+                'weight': 600,
+                'line-height': 0.8,
+                'letter-spacing': 0.02em,
+                'font-family': $body-font-family,
+                'text-transform': uppercase
+        ),
         'caption-d': (
                 'size': 12px,
                 'weight': 600,

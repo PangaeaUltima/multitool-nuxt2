@@ -1,15 +1,13 @@
-<template>
-  <v-app dark>
-    <h1 v-if="error.statusCode === 404">
-      {{ pageNotFound }}
-    </h1>
-    <h1 v-else>
-      {{ otherError }}
-    </h1>
-    <NuxtLink to="/">
-      Home page
-    </NuxtLink>
-  </v-app>
+<template lang="pug">
+v-container.fill-height.justify-center
+  .d-flex.flex-column.align-center.justify-center
+    h1.error-code.primary--text {{ error.statusCode }}
+    p.error-text.mb-5 {{ error.message }}
+    v-btn.text-md-btn-d.text-btn(
+      color="primary"
+      text
+      @click="$router.push({ name: 'index' })"
+    ) Home
 </template>
 
 <script>
@@ -19,27 +17,29 @@ export default {
   props: {
     error: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
-  data () {
+  data() {
     return {
       pageNotFound: '404 Not Found',
-      otherError: 'An error occurred'
+      otherError: 'An error occurred',
     }
   },
-  head () {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError
+  head() {
+    const title = this.error.statusCode === 404 ? this.pageNotFound : this.otherError
     return {
-      title
+      title,
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
 h1 {
-  font-size: 20px;
+  font-size: 90px;
+}
+.error-text {
+  font-size: 22px;
 }
 </style>
