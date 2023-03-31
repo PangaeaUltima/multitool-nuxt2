@@ -21,6 +21,7 @@ v-menu(
       :disabled="disabled"
       readonly
       :dense="$vuetify.breakpoint.mobile"
+      outlined
       @click:clear="clearValue"
       :clearable="clearable"
       :background-color="backgroundColor"
