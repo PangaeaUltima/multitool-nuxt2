@@ -1,5 +1,5 @@
 <template lang="pug">
-.cursor-follower
+.cursor-follower(ref="layout")
   .follower.yellow(
     ref="follower"
     :style="{ width: `${followerSize}px`, height: `${followerSize}px`, left: `${followerPositionX}px`, top: `${followerPositionY}px` }"
@@ -23,13 +23,43 @@ export default {
       mouseBottom: false,
       directionX: null,
       directionY: null,
+      runInterval: null,
+      updatePositionInterval: null,
     }
   },
   mounted() {
+    // await this.$nextTick()
+    // this.createFood()
     this.runFollower()
     this.updatePositionData()
   },
+  beforeDestroy() {
+    clearInterval(this.runInterval)
+    clearInterval(this.updatePositionInterval)
+  },
   methods: {
+    createFood() {
+      const food = document.createElement('div')
+      food.classList.add('follower-food')
+      const left = Math.random() * window.innerWidth
+      const top = Math.random() * window.innerHeight
+      food.style.left = `${left}px`
+      food.style.top = `${top}px`
+      food.style.position = 'absolute'
+      food.style.width = '4px'
+      food.style.height = '4px'
+      food.style.background = 'red'
+      const layout = this.$refs.layout
+      layout.append(food)
+    },
+    eatFood() {
+      const { offsetLeft: foodOffsetLeft, offsetTop: foodOffsetTop } =
+        document.querySelector('.follower-food')
+      const { foodCenterX, foodCenterY } = {
+        foodCenterX: foodOffsetLeft + 2,
+        foodCenterY: foodOffsetTop + 2,
+      }
+    },
     listenMousePosition() {
       window.addEventListener('mousemove', (e) => {
         const { clientX: x, clientY: y } = e
@@ -44,8 +74,9 @@ export default {
       this.followerPositionX = window.innerWidth * 0.9
       this.followerPositionY = window.innerHeight * 0.5
 
-      setInterval(() => {
+      this.runInterval = setInterval(() => {
         const follower = this.$refs.follower
+
         const { offsetLeft, offsetTop } = follower
         this.followerCenterX = offsetLeft + this.followerSize / 2
         this.followerCenterY = offsetTop + this.followerSize / 2
@@ -57,10 +88,10 @@ export default {
           if (this.followerCenterY !== this.y)
             this.followerPositionY = Math.round(+this.followerPositionY + this.directionY)
         }
-      }, 10)
+      }, 1)
     },
     updatePositionData() {
-      setInterval(() => {
+      this.updatePositionInterval = setInterval(() => {
         const { offsetLeft, offsetTop } = this.$refs.follower
 
         this.followerCenterX = offsetLeft + this.followerSize / 2
@@ -86,6 +117,7 @@ export default {
   height: 100%;
 
   .follower {
+    z-index: 9;
     position: absolute;
     border-radius: 50%;
     right: 10%;
